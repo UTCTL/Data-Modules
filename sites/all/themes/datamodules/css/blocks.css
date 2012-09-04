@@ -1,0 +1,216 @@
+/**
+ * @file
+ * Block Styling
+ */
+
+
+.block { /* Block wrapper */
+  margin-bottom: 0;
+}
+
+.block.first { /* The first block in the region */
+}
+
+.block.last { /* The last block in the region */
+}
+
+.block.odd { /* Zebra striping for each block in the region */
+}
+
+.block.even { /* Zebra striping for each block in the region */
+}
+
+h2.block-title { /* Block title */
+}
+
+#block-aggregator-category-1 { /* Block for the latest news items in the first category */
+}
+
+#block-aggregator-feed-1 { /* Block for the latest news items in the first feed */
+}
+
+#block-block-1 { /* First block created with "Add block" link */
+}
+
+#block-blog-recent { /* "Recent blog posts" block */
+}
+
+#block-book-navigation { /* "Book navigation" block for the current book's table of contents */
+}
+
+#block-comment-recent { /* "Recent comments" block */
+}
+
+#block-forum-active { /* "Active forum topics" block */
+}
+
+#block-forum-new { /* "New forum topics" block */
+}
+
+#block-locale-language { /* Language switcher block */
+}
+
+#block-menu-menu-NAME { /* Custom menu block */
+}
+
+#block-node-recent { /* "Recent content" block */
+}
+
+#block-node-syndicate { /* "Syndicate" block for primary RSS feed; see also page.css's .feed-icon */
+}
+
+#block-poll-recent { /* "Most recent poll" block */
+}
+
+#block-profile-author-information { /* "Author information" block for the profile of the page's author */
+}
+
+#block-search-form { /* "Search form" block */
+}
+
+#block-shortcut-shortcuts { /* "Shortcuts" block */
+}
+
+#block-statistics-popular { /* "Popular content" block */
+}
+
+#block-system-main-menu { /* "Main menu" block */
+}
+
+#block-system-management { /* "Management" block for Drupal management menu */
+}
+
+#block-system-navigation { /* "Navigation" block for Drupal navigation menu */
+}
+
+#block-system-user-menu { /* "User menu" block for Drupal user menu */
+}
+
+#block-system-help { /* "System help" block */
+}
+
+#block-system-main { /* "Main page content" block */
+}
+
+#block-system-powered-by { /* "Powered by Drupal" block */
+}
+
+#block-user-login { /* "User login form" block */
+}
+
+#block-user-new { /* "Who's new" block for a list of the newest users */
+}
+
+#block-user-online { /* "Who's online" block for a list of the online users */
+}
+
+/* Menu Block */
+
+#block-menu-block-3{
+	background-color: #d1d3d4;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(209, 211, 212)), to(rgb(255, 255, 255)));
+	background-image: -webkit-linear-gradient(top, rgb(209, 211, 212), rgb(255, 255, 255));
+	background-image: -moz-linear-gradient(top, rgb(209, 211, 212), rgb(255, 255, 255));
+	background-image: -o-linear-gradient(top, rgb(209, 211, 212), rgb(255, 255, 255));
+	background-image: -ms-linear-gradient(top, rgb(209, 211, 212), rgb(255, 255, 255));
+	background-image: linear-gradient(top, rgb(209, 211, 212), rgb(255, 255, 255));
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#d1d3d4', EndColorStr='#ffffff');
+	padding:0;
+	margin-right:1px;
+}
+
+#block-menu-block-3 ul.menu{
+	padding:20px 0 0 0;
+	display:table;
+}
+
+#block-menu-block-3 ul.menu li{
+	list-style-image:none;
+	list-style-type:none;
+	display:table-row;
+}
+
+
+#block-menu-block-3 ul.menu li.leaf a{
+	color:#333;
+	text-transform:uppercase;
+	text-decoration:none;
+	font-size:.9em;
+	line-height:1.3em;
+	display:table-cell;
+	padding:0 10px 0 65px;
+	vertical-align:middle;
+	height:72px;
+}
+
+#block-menu-block-3 ul.menu li.active a{
+	color:#fff;
+	background-color:#e4543a;
+}
+
+/* Section Navigation */
+
+#block-block-3 ul li a{
+	color:#333;
+	text-transform:uppercase;
+	font-size:1.2em;
+	margin:15px 5px;
+	text-decoration:none;
+}
+
+#block-block-3{
+	background-color:#fff;
+	margin-left:1px;
+	padding:0;
+}
+
+#block-block-3 ul{
+	padding:20px 20px;
+}
+
+#block-block-3 ul li{
+	list-style-image:none;
+	list-style-type:none;
+	margin:12px 0;
+}
+
+#block-block-3 ul li a:hover{
+	color:#e4543a;
+}
+
+
+/* Homepage Menu */
+
+#block-menu-block-4{
+}
+
+#block-menu-block-4 ul.menu{
+	padding:20px 0 0 0;
+	display:table;
+}
+
+#block-menu-block-4 ul.menu li{
+	list-style-image:none;
+	list-style-type:none;
+	display:table-row;
+}
+
+
+#block-menu-block-4 ul.menu li.leaf a{
+	color:#333;
+	text-transform:capitalize;
+	text-decoration:none;
+	font-size:2em;
+	line-height:1.1em;
+	display:table-cell;
+	padding:0 20px 0 80px;
+	vertical-align:middle;
+	height:72px;
+}
+
+#block-menu-block-4 ul.menu li.active a{
+	color:#fff;
+	background-color:#e4543a;
+}
+
+

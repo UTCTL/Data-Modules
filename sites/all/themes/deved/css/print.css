@@ -1,0 +1,20 @@
+body {
+	background: none:
+}
+
+#region-user-first {
+	display: none;
+}
+
+#region-sidebar-first {
+	display: none;
+}
+
+.region-sidebar-second-inner {
+	display: none;
+}
+
+#region-content {
+	width: 650px;
+	margin: 1in;
+}

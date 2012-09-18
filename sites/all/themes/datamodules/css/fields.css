@@ -101,3 +101,10 @@
 
 .field-name-field-FIELDNAME { /* Underscores in field name are replaced with dashes. */
 }
+
+/*
+ * Custom Fields
+ */
+ 
+.assignment-sections .field-items .field-item {
+}

@@ -17,9 +17,10 @@ if (!!jQuery('.region-sidebar-second').offset()) {
      });
     }
     
-    jQuery('a[href*=#]').click(function(event){		
-		event.preventDefault();
-		jQuery('html,body').animate({scrollTop:jQuery(this.hash).offset().top}, 500);
-	});
-	
+jQuery(".assignment-sections .field-items #section-0").siblings().hide();
+jQuery(".section-link").click(function () {
+	var divname= this.id;
+		jQuery(divname).show("slow").siblings().hide("slow");
+});
+
 });

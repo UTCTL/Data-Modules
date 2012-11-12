@@ -15,7 +15,7 @@ function taxonomy_display_enable() {
 
   // Retrieve all the existing vocabularies.
   $vocabularies = taxonomy_vocabulary_get_names();
-  
+
   // Select taxonomy displays we have in the DB.
   $taxonomy_displays = db_select('taxonomy_display', 'td')
       ->fields('td', array('machine_name'))
@@ -26,7 +26,7 @@ function taxonomy_display_enable() {
     // If the vocabulary does not exist delete the taxonomy_display as it is now
     // an orphan.
     if (!isset($vocabularies[$taxonomy_display->machine_name])) {
-      taxonomy_display_delete_taxonomy_dislpay($taxonomy_display->machine_name);
+      taxonomy_display_delete_taxonomy_display($taxonomy_display->machine_name);
     }
   }
 }
@@ -37,6 +37,22 @@ function taxonomy_display_enable() {
 function taxonomy_display_schema() {
   $schema['taxonomy_display'] = array(
     'description' => 'Per vocabulary configuration for term pages.',
+
+    // CTools export definitions.
+    'export' => array(
+      'key' => 'machine_name',
+      'primary key' => 'machine_name',
+      'default hook' => 'taxonomy_display_default_displays',
+      'load callback' => 'taxonomy_display_fetch_taxonomy_display',
+      'can disable' => FALSE,
+      'api' => array(
+        'owner' => 'taxonomy_display',
+        'api' => 'taxonomy_display',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+
     'fields' => array(
       'machine_name' => array(
         'type' => 'varchar',

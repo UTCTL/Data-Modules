@@ -32,7 +32,7 @@ function taxonomy_display_ctools_plugin_directory($owner, $plugin_type) {
  *
  * @return void
  */
-function taxonomy_display_delete_taxonomy_dislpay($machine_name, $watchdog_message = NULL, $watchdog_variables = array(), $watchdog_severity = WATCHDOG_NOTICE) {
+function taxonomy_display_delete_taxonomy_display($machine_name, $watchdog_message = NULL, $watchdog_variables = array(), $watchdog_severity = WATCHDOG_NOTICE) {
   // Delete our display record for the term being removed.
   $count = (bool) db_delete('taxonomy_display')
     ->condition('machine_name', $machine_name)
@@ -49,13 +49,13 @@ function taxonomy_display_delete_taxonomy_dislpay($machine_name, $watchdog_messa
 }
 
 /**
- * Helper function; retrieve taxonomy display settings from the database.
+ * Helper function; retrieve taxonomy display settings.
  *
  * @param string $machine_name
  *   The machine name of the vocabulary's taxonomy display data to fetch.
  *
- * @return array
- *   Return associated array.
+ * @return object
+ *   Return ctools export object with taxonomy display settings.
  */
 function taxonomy_display_fetch_taxonomy_display($machine_name) {
   // Attempt to fetch cached settings for the machine name.
@@ -64,41 +64,37 @@ function taxonomy_display_fetch_taxonomy_display($machine_name) {
     return $cache->data;
   }
 
-  $result = db_select('taxonomy_display', 'td')
-    ->fields('td')
-    ->condition('machine_name', $machine_name)
-    ->execute()
-    ->fetchAssoc();
-
   $plugin_types = _taxonomy_display_plugin_types();
 
-  // Set defaults if a result was not found
-  if (!$result) {
-    $defaults = array(
-      'machine_name' => $machine_name,
-      'add_feed' => 1,
-      'no_record' => TRUE,
-    );
+  ctools_include('export');
+  $result = ctools_export_load_object('taxonomy_display', 'names', array($machine_name));
+
+  // Set defaults if a result was not found.
+  if (!isset($result[$machine_name])) {
+    $defaults = new stdClass();
+    $defaults->machine_name = $machine_name;
+    $defaults->add_feed = TRUE;
+    $defaults->no_record = TRUE;
+
     foreach($plugin_types as $k => $v) {
-      $defaults[$k . '_display_plugin'] = 'TaxonomyDisplay' . ucfirst($k) . 'DisplayHandlerCore';
-      $defaults[$k . '_display_options'] = NULL;
+      $defaults->{$k . '_display_plugin'} = 'TaxonomyDisplay' . ucfirst($k) . 'DisplayHandlerCore';
+      $defaults->{$k . '_display_options'} = NULL;
     }
     return $defaults;
   }
 
+  $result = $result[$machine_name];
+
   // Prepare plugins' data for use.
   foreach ($plugin_types as $k => $v) {
-    if (!class_exists($result[$k . '_display_plugin'])) {
+    if (!class_exists($result->{$k . '_display_plugin'})) {
       // Note that if providing translations for this module you must provide a
       // translation for this watchdog warning for each $value.
       watchdog('taxonomy_display', 'The taxonomy ' . $v['short'] . ' plugin assigned to the %name vocabulary is missing, Drupal default settings were used instead.', array('%name' => $machine_name), WATCHDOG_WARNING);
 
-      $result[$k . '_display_plugin'] = 'TaxonomyDisplay' . ucfirst($k) . 'DisplayHandlerCore';
-      $result[$k . '_display_options'] = NULL;
-      $result[$k . '_plugin_missing'] = TRUE;
-    }
-    else {
-      $result[$k . '_display_options'] = unserialize($result[$k . '_display_options']);
+      $result->{$k . '_display_plugin'} = 'TaxonomyDisplay' . ucfirst($k) . 'DisplayHandlerCore';
+      $result->{$k . '_display_options'} = NULL;
+      $result->{$k . '_plugin_missing'} = TRUE;
     }
   }
 
@@ -168,12 +164,12 @@ function taxonomy_display_permission() {
 
 /**
  * Retrieve an array of Taxonomy Display plugins.
- * 
+ *
  * @param null|string $type
  *   Only retrieve plugins of a specific type, expected values 'term',
  *   'associated', and 'breadcrumb'. By default, NULL, this will return an array
  *   with all.
- * 
+ *
  * @return array|void
  *   If an expected value is provided for $type, or no value is provided, an
  *   array will be returned. If an unexpected value is provided nothing will be
@@ -208,7 +204,7 @@ function taxonomy_display_taxonomy_display_plugins() {
     // In the array's sencondary arrays, provide the implementing class
     // name of your handler as the keys and the text to be displayed to the user
     // for display as the value.
-    // 
+    //
     // Note: All of the class's files are in our module's .info files array so
     //   that auto loading works.
     'associated' => array(
@@ -218,6 +214,7 @@ function taxonomy_display_taxonomy_display_plugins() {
     'breadcrumb' => array(
       'TaxonomyDisplayBreadcrumbDisplayHandlerCore' => t('Core'),
       'TaxonomyDisplayBreadcrumbDisplayHandlerHidden' => t('Hidden'),
+      'TaxonomyDisplayBreadcrumbDisplayHandlerIgnore' => t('Ignore'),
     ),
     'term' => array(
       'TaxonomyDisplayTermDisplayHandlerCore' => t('Core'),
@@ -281,10 +278,13 @@ function taxonomy_display_save_taxonomy_display($machine_name, $save_data = arra
   // Retrieve the machine name, tells us whether to insert or update.
   $update = taxonomy_display_fetch_taxonomy_display($machine_name);
 
+  // If $update was fetched from cache, CTools export.inc is not included.
+  ctools_include('export');
+
   // Perform our save
   try {
     // If update
-    if (!isset($update['no_record'])) {
+    if (!isset($update->no_record) && ($update->export_type & EXPORT_IN_DATABASE)) {
       // Do not proceed if there are no fields to update.
       if (empty($query_fields)) {
         return;
@@ -349,18 +349,30 @@ function taxonomy_display_save_taxonomy_display($machine_name, $save_data = arra
  *   The page content.
  */
 function taxonomy_display_taxonomy_term_page($term) {
+  // Ensure custom display settings for taxonomy term page are enabled before
+  // altering.
+  $view_mode = field_view_mode_settings('taxonomy_term', $term->vocabulary_machine_name);
+  if (empty($view_mode['full']['custom_settings'])) {
+    module_load_include('inc', 'taxonomy', 'taxonomy.pages');
+    return taxonomy_term_page($term);
+  }
+
   // Expose our $term object to altering.
   drupal_alter('taxonomy_display_term_page_term_object', $term);
+
+  // taxonomy_term_page() sets the title this way, if flexibility is requested
+  // it can always be added to the module as a configurable setting.
+  drupal_set_title($term->name);
 
   // Load settings for this vocabulary term.
   $display_settings = taxonomy_display_fetch_taxonomy_display($term->vocabulary_machine_name);
 
   // Breadcrumb display
-  $breadcrumb_display = new $display_settings['breadcrumb_display_plugin'];
+  $breadcrumb_display = new $display_settings->breadcrumb_display_plugin;
   $breadcrumb_display->buildBreadcrumb($term);
 
   // Conditionally add core Drupal feed to page
-  if ($display_settings['add_feed']) {
+  if ($display_settings->add_feed) {
     drupal_add_feed('taxonomy/term/' . $term->tid . '/feed', 'RSS - ' . $term->name);
   }
 
@@ -368,12 +380,12 @@ function taxonomy_display_taxonomy_term_page($term) {
   $build = array();
 
   // Term display
-  $term_display = new $display_settings['term_display_plugin'];
-  $build['term_heading'] = $term_display->displayTerm($term, $display_settings['term_display_options']);
+  $term_display = new $display_settings->term_display_plugin;
+  $build['term_heading'] = $term_display->displayTerm($term, $display_settings->term_display_options);
 
   // Associated content display
-  $associated_display = new $display_settings['associated_display_plugin'];
-  $build = array_merge($build, $associated_display->displayAssociated($term, $display_settings['associated_display_options']));
+  $associated_display = new $display_settings->associated_display_plugin;
+  $build = array_merge($build, $associated_display->displayAssociated($term, $display_settings->associated_display_options));
 
   return $build;
 }
@@ -401,7 +413,7 @@ function taxonomy_display_taxonomy_term_title($term) {
  */
 function taxonomy_display_taxonomy_vocabulary_delete($vocabulary) {
   // Delete our display record for the vocabulary being removed.
-  taxonomy_display_delete_taxonomy_dislpay($vocabulary->machine_name,
+  taxonomy_display_delete_taxonomy_display($vocabulary->machine_name,
       'Taxonomy display settings deleted for %name in response to the vocabulary being deleted.',
       array('%name' => $vocabulary->machine_name));
 }
@@ -431,19 +443,19 @@ function taxonomy_display_taxonomy_vocabulary_update($vocabulary) {
 function _taxonomy_display_plugin_types() {
   return array(
     'term' => array(
-      'short' => 'term display',
-      'description' => 'content',
-      'long' => 'Term display',
+      'short' => t('term display'),
+      'description' => t('content'),
+      'long' => t('Term display'),
     ),
     'associated' => array(
-      'short' => 'associated content',
-      'description' => 'associated content',
-      'long' => 'Associated content display',
+      'short' => t('associated content'),
+      'description' => t('associated content'),
+      'long' => t('Associated content display'),
     ),
     'breadcrumb' => array(
-      'short' => 'breadcrumb',
-      'description' => 'breadcrumb',
-      'long' => 'Breadcrumb display',
+      'short' => t('breadcrumb'),
+      'description' => t('breadcrumb'),
+      'long' => t('Breadcrumb display'),
     ),
   );
 }

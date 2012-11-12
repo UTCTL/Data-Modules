@@ -30,7 +30,8 @@ function taxonomy_display_term_page_display_content_type_render($subtype, $conf,
   if ($term) {
     $block->title = $term->name;
     $block->delta = $term->tid;
-    $block->content = drupal_render(taxonomy_display_taxonomy_term_page($term));
+    $term_page = taxonomy_display_taxonomy_term_page($term);
+    $block->content = drupal_render($term_page);
 
     if (user_access('administer taxonomy')) {
       $block->admin_links['update'] = array(

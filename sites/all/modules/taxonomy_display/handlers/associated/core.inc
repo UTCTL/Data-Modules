@@ -12,7 +12,10 @@ class TaxonomyDisplayAssociatedDisplayHandlerCore extends TaxonomyDisplayAssocia
   public function displayAssociated($term, $options = NULL) {
     $build = array();
 
-    $number_nodes = isset($options['associated_per_page']) ? $options['associated_per_page'] : variable_get('default_nodes_main', 10);
+    $number_nodes = intval(isset($options['associated_per_page']) ? $options['associated_per_page'] : variable_get('default_nodes_main', 10));
+    if ($number_nodes === 0) {
+      $number_nodes = FALSE;
+    }
     if ($nids = taxonomy_select_nodes($term->tid, TRUE, $number_nodes)) {
       $nodes = node_load_multiple($nids);
       $build += node_view_multiple($nodes);

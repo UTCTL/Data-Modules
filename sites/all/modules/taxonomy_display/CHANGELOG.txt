@@ -1,6 +1,28 @@
 Taxonomy Display 7.x-1.x, YYYY-MM-DD
 ------------------------------------
 
+Taxonomy Display 7.x-1.1, 2012-10-29
+------------------------------------
+Issue #1783968 by tmsimont, lotyrin: Update Views associated handler to support
+  exposed filters.
+Issue #1817970 by codycraven, moltra: Fix fatal error in associated core when
+  number of entities set to 0.
+Issue #1507630 by codycraven: Check for custom display setting before altering.
+Issue #1798169 by tmsimont, lotyrin, codycraven: Added ignore breadcrumb plugin
+  to allow other modules to set the breadcrumb.
+Issue #1811426 by Moloc: Fix term name not used as page title when menu item
+  links to it.
+Issue #1807714 by codycraven: Due to #1410576 CTools is now a dependency.
+Issue #1807682 by codycraven: Fixed strict warning, function result passed by
+  reference.
+Issue #1410576 by jonhattan: Added Features export integration.
+Issue #1693978 by Saxxing: Fix ability for breadcrumbs to be translated.
+Issue #1425648 by codycraven: Added README.txt per user request.
+Issue #1507632 by codycraven, hass: Display select option for views that do not
+  have a human name set.
+Issue #1564806 by hass: Fix misspelled function name.
+Issue #1542306 by hass: Fix strings missing translate function wrapper.
+
 Taxonomy Display 7.x-1.0, 2011-10-10
 ------------------------------------
 Issue #1305682 by codycraven: Add CTools term page display plugin.

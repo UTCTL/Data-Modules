@@ -45,6 +45,9 @@ class TaxonomyDisplayAssociatedDisplayHandlerViews extends TaxonomyDisplayAssoci
     }
     // Else if the user has access to the view.
     elseif ($view->access($options['display'])) {
+      // Ensure links stay on taxonomy term page.
+      $view->override_path = 'taxonomy/term/%';
+
       // Generate the view's output.
       $output = $view->preview($options['display'], array($term->tid));
       if ($output) {
@@ -72,7 +75,9 @@ class TaxonomyDisplayAssociatedDisplayHandlerViews extends TaxonomyDisplayAssoci
     $select_options = array();
     foreach ($views as $view) {
       if (views_view_is_enabled($view)) {
-        $select_options[$view->name] = $view->human_name;
+        // #1507632 It has been reported that some views have empty human names,
+        // so we add a condition and use the view name if human is unavailable.
+        $select_options[$view->name] = empty($view->human_name) ? $view->name : $view->human_name;
       }
     }
     $form['view'] = array(
@@ -113,7 +118,7 @@ class TaxonomyDisplayAssociatedDisplayHandlerViews extends TaxonomyDisplayAssoci
       '#options' => $select_options,
       '#prefix' => '<div id="replace-td-views-display-field">',
       '#suffix' => '</div>',
-      '#title' => 'View\'s display',
+      '#title' => t("View's display"),
       '#type' => 'select',
     );
   }

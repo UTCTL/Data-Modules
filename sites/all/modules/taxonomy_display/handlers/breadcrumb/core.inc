@@ -18,7 +18,7 @@ class TaxonomyDisplayBreadcrumbDisplayHandlerCore extends TaxonomyDisplayBreadcr
     $breadcrumb = array();
     while ($parents = taxonomy_get_parents($current->tid)) {
       // Allow modules like i18n_taxonomy to alter the parents.
-      drupal_alter('taxonomy_display_breadcrumb_parents_alter', $parents);
+      drupal_alter('taxonomy_display_breadcrumb_parents', $parents);
       $current = array_shift($parents);
       $breadcrumb[] = l($current->name, 'taxonomy/term/' . $current->tid);
     }

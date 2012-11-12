@@ -29,7 +29,7 @@ function taxonomy_display_admin_form(&$form, &$form_state) {
   // We require the 'full' #view_mode to configure the taxonomy term page.
   if ($form['#view_mode'] == 'default') {
     $field = array(
-      '#title' => 'Term page display',
+      '#title' => t('Term page display'),
       '#type' => 'fieldset',
     );
     // Find out if full mode is enabled and change the description for term page
@@ -37,10 +37,10 @@ function taxonomy_display_admin_form(&$form, &$form_state) {
     $entity_info = entity_get_info('taxonomy_term');
     $view_mode_settings = field_view_mode_settings('taxonomy_term', $form['#bundle']);
     if (isset($view_mode_settings['full']['custom_settings'])) {
-      $field['#description'] = 'To alter the term page display you need to go to the <em>Taxonomy term page</em> view mode.';
+      $field['#description'] = t('To alter the term page display you need to go to the <em>Taxonomy term page</em> view mode.');
     }
     else {
-      $field['#description'] = 'Enable the <em>Taxonomy term page</em> view mode under the <em>Custom display settings</em> tab to alter the term page display.';
+      $field['#description'] = t('Enable the <em>Taxonomy term page</em> view mode under the <em>Custom display settings</em> tab to alter the term page display.');
     }
     $form['additional_settings']['taxonomy_display'] = $field;
   }
@@ -54,8 +54,8 @@ function taxonomy_display_admin_form(&$form, &$form_state) {
   $stored_settings = taxonomy_display_fetch_taxonomy_display($form['#bundle']);
 
   $form['additional_settings']['taxonomy_display'] = array(
-    '#description' => 'Configure how the taxonomy term display page should be presented when viewed for this vocabulary.',
-    '#title' => 'Term page display',
+    '#description' => t('Configure how the taxonomy term display page should be presented when viewed for this vocabulary.'),
+    '#title' => t('Term page display'),
     '#type' => 'fieldset',
   );
   $fieldset =& $form['additional_settings']['taxonomy_display'];
@@ -68,9 +68,9 @@ function taxonomy_display_admin_form(&$form, &$form_state) {
 
   // Add selection for adding taxonomy term core feed to page
   $fieldset['add_feed'] = array(
-    '#default_value' => $stored_settings['add_feed'],
-    '#description' => 'Drupal, by default, includes a feed of content referencing the term, by unchecking this you can prevent the feed from being added.',
-    '#title' => 'Include feed',
+    '#default_value' => $stored_settings->add_feed,
+    '#description' => t('Drupal, by default, includes a feed of content referencing the term, by unchecking this you can prevent the feed from being added.'),
+    '#title' => t('Include feed'),
     '#type' => 'checkbox',
   );
 
@@ -196,7 +196,7 @@ function taxonomy_display_field_ui_layouts_validate($form, &$form_state) {
 
 /**
  * Helper function; build the admin form for plugins.
- * 
+ *
  * @param string $type
  *   Either 'term', 'associated', or 'breadcrumb'.
  * @param array $fieldset
@@ -204,7 +204,7 @@ function taxonomy_display_field_ui_layouts_validate($form, &$form_state) {
  * @param array|null $form_state
  *   The form state array.
  * @param $stored_settings
- *   Associated array from taxonomy_display_fetch_taxonomy_display().
+ *   Object from taxonomy_display_fetch_taxonomy_display().
  *
  * @return void
  *
@@ -219,7 +219,7 @@ function _taxonomy_display_admin_form_build_plugin_form($type, &$fieldset, &$for
 
   // Set variables needed based on type
   $select_field_title = t($plugin_types[$type]['long']);
-  $select_field_description = t('Select which plugin you would like to display the term\'s ' . $plugin_types[$type]['description']);
+  $select_field_description = t("Select which plugin you would like to display the term's %plugin_types_description.", array('%plugin_types_description' => $plugin_types[$type]['description']));
 
   $values = NULL;
   if (isset($form_state['values']['additional_settings']['taxonomy_display'])) {
@@ -230,8 +230,8 @@ function _taxonomy_display_admin_form_build_plugin_form($type, &$fieldset, &$for
   $options = taxonomy_display_plugins($type);
 
   // Add support for missing plugins.
-  if (isset($stored_settings[$type . '_plugin_missing'])) {
-    $options = array_merge(array('missing' => t('-- Missing plugin --')), $options);
+  if (isset($stored_settings->{$type . '_plugin_missing'})) {
+    $options = array_merge(array('missing' => t('- Missing plugin -')), $options);
   }
 
   // Discover which option should be selected from the display plugins.
@@ -244,7 +244,7 @@ function _taxonomy_display_admin_form_build_plugin_form($type, &$fieldset, &$for
     $selected = 'missing';
   }
   else {
-    $selected = $stored_settings[$type . '_display_plugin'];
+    $selected = $stored_settings->{$type . '_display_plugin'};
   }
   $fieldset[$type . '_display_select'] = array(
     '#ajax' => array(
@@ -276,7 +276,7 @@ function _taxonomy_display_admin_form_build_plugin_form($type, &$fieldset, &$for
   $fieldset[$type . '_display_form'] = array(
     '#prefix' => '<div id="replace-' . $type . '-display-form">',
     '#suffix' => '</div>',
-    '#title' => t('!label display options', array('!label' => $options[$selected])),
+    '#title' => t('@label display options', array('@label' => $options[$selected])),
     '#type' => 'fieldset',
   );
 
@@ -284,8 +284,8 @@ function _taxonomy_display_admin_form_build_plugin_form($type, &$fieldset, &$for
   $plugin_class = new $selected;
   // Set $options as null
   $display_options = NULL;
-  if (!isset($stored_settings['no_record'])) {
-    $display_options = $stored_settings[$type . '_display_options'];
+  if (!isset($stored_settings->no_record)) {
+    $display_options = $stored_settings->{$type . '_display_options'};
   }
   // If the handler wasn't the one used on the last form build then reset the
   // $form_state values for it.

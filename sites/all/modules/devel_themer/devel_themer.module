@@ -253,6 +253,12 @@ function devel_themer_catch_function() {
       // theme_html_tag() is a low-level theme function intended primarily for
       // markup added to the document HEAD.
       $exclude[] = 'html_tag';
+
+      // DATE MODULE: Inline labels for date select lists shouldn't be wrapped.
+      if (strpos($meta['hook'], 'date_part_label_') === 0 && $variables['element']['#type'] == 'date_select' && $variables['element']['#date_label_position'] == 'within') {
+        $exclude[] = $hook;
+      }
+
       if (!in_array($hook, $exclude)) {
         $return = devel_themer_inject_markers($return, $key);
       }

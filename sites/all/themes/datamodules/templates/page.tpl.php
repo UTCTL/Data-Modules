@@ -153,6 +153,19 @@
     <div class="span-6">
       <aside class="sidebars">
         <?php print $sidebar_first; ?>
+        <div style="padding-left: 15px;">
+         <!--
+<?php
+	        echo("<b><u>Users</b></u>");
+        	$query = db_select('users', 'u');
+        	$query->fields('u', array('name'));
+        	$result = $query->execute();
+        	while($record = $result->fetchAssoc()) {
+	        	print_r($record['name'] . "<br>");
+	        }
+	    ?>
+-->
+        </div>
       </aside><!-- /.sidebars -->
       </div>
     <?php endif; ?>
@@ -189,6 +202,7 @@
     <div class="span-4 last">
           <aside class="sidebars">
         <?php print $sidebar_second; ?>
+       
       </aside><!-- /.sidebars --></div>
     <?php endif; ?>
       </div>

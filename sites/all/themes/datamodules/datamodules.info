@@ -81,6 +81,7 @@ stylesheets[all][] = css/print.css
 
 scripts[] = js/css3-mediaqueries.js
 scripts[] = js/sidebar.js
+scripts[] = js/script.js
 
 
 ; This section lists the regions defined in Zen's default page.tpl.php and

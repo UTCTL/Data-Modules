@@ -10,6 +10,16 @@
 // wrapping it with an "anonymous closure". See:
 // - http://drupal.org/node/1446420
 // - http://www.adequatelygood.com/2010/3/JavaScript-Module-Pattern-In-Depth
+/*
 (function ($, Drupal, window, document, undefined) {
 
 })(jQuery, Drupal, this, this.document);
+*/
+
+jQuery(document).ready(function(){
+	jQuery(".answer").hide();
+	jQuery(".question").click(function () {
+		jQuery(".answer").toggle();
+	});
+
+});

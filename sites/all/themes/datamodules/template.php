@@ -276,4 +276,26 @@ function datamodules_semantic_field__field_title__field_section($variables) {
 
   return $output;
 }
+
+function datamodules_preprocess_block(&$vars) {
+	 if($vars['block']->bid == "188")
+	 {
+/* 		 echo("This is the section menu."); */
+/* 		 $vars['elements']["#markup"] = "My new content"; */
+/* 		var_dump($vars["elements"]["#markup"]); */
+	 }
+	 
+	 else if ($vars['block']->region == "sidebar_second")
+	 {
+/* 		 echo("ERROR: Block with bid = '188' (Section Menu) expected in region = 'sidebar_second'"); */
+/* 		 echo("Possible cause: function datamodules_preprocess_block in template.php (datamodules)"); */
+/* 		var_dump($vars); */
+	 }
+/* 	var_dump($vars['block']); */
+}
+
+function datamodules_preprocess_page(&$vars) {
+/* 	$vars['custom_links'] = menu_navigation_links('menu-custom-links'); */
+/* 	var_dump($vars); */
+}
 ?>

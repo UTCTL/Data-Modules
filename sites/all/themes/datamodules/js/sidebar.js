@@ -19,7 +19,7 @@ jQuery(document).ready(function(){
 	    jQuery(window).scroll(function(){
 	    	var windowTop = jQuery(window).scrollTop();
 	    	if (sidebarTop < windowTop) {
-	    		jQuery('.region-sidebar-second').css({ position: 'fixed', top: 0 });
+	    		jQuery('.region-sidebar-second').css({ position: 'fixed', top: 20 });
 	    		jQuery('.region-sidebar-second').width(sidebarWidth);
 	    		jQuery('.region-sidebar-second').height(sidebarHeight); 
 	    	}

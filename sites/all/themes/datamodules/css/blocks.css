@@ -165,7 +165,7 @@ h2.block-title { /* Block title */
 }
 
 #block-block-3 ul{
-	padding:20px 20px;
+	padding:25px 20px;
 }
 
 #block-block-3 ul li{
@@ -213,4 +213,6 @@ h2.block-title { /* Block title */
 	background-color:#e4543a;
 }
 
-
+.subsection-links {
+	display: none;
+}

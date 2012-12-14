@@ -230,6 +230,18 @@ function datamodules_theme_link($variables) {
 }
 
 function datamodules_semantic_field__field_section($variables) {
+	$field_type = $variables['element']['#field_name'];
+	if($field_type == 'field_subsection')
+	{
+/* 		echo("SUBSECTION"); */
+		$field_type = "subsection";
+	}
+	
+	else
+	{
+		$field_type = "section";
+	}
+/* 	var_dump($variables['element']['#field_name']); */
   $output = '';
 
   // Render the label, if it's not hidden.
@@ -241,7 +253,8 @@ function datamodules_semantic_field__field_section($variables) {
   $output .= '<div class="field-items"' . $variables['content_attributes'] . '>';
   $i = 0;
   foreach ($variables['items'] as $delta => $item) {
-    $output .= '<div id="section-'.$i.'">';
+/*   	echo($item['#field_name']); */
+    $output .= '<div id="'.$field_type.'-'.$i.'">';
     $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
     $output .= '<div class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
     $output .= "</div>";

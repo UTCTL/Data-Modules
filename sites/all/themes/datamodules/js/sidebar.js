@@ -32,12 +32,13 @@ jQuery(document).ready(function(){
 	    
 	jQuery(".assignment-sections .field-items #section-0").siblings().hide();
 	jQuery("#block-block-3 #section-0").parent().children('.subsection-links').show();
-	
 	jQuery(".section-link").click(function () {
 		var divname = this.id;
 		
 /* 		SECTIONS */
 		jQuery(".assignment-sections .field-items #" + divname).fadeIn("fast").siblings().fadeOut("fast");
+		jQuery("#block-block-3 #" + divname).parent().siblings().children('.section-link').css('color', '#333');
+		jQuery("#block-block-3 #" + divname).css('color', '#E4543A');
 		jQuery("#block-block-3 #" + divname).parent().siblings().children(".subsection-links").slideUp('fast');
 
 /* 		SUBSECTIONS		 */
@@ -47,6 +48,12 @@ jQuery(document).ready(function(){
 	jQuery(".subsection-link").click(function() {
 		var sectionID = jQuery(this).parent().parent().parent().children('.section-link').attr('id');
 		var divname = this.id;
+		jQuery("#block-block-3 #" + sectionID).parent().siblings().children('.section-link').css('color', '#333');
+		jQuery("#block-block-3 #" + sectionID).css('color', '#E4543A');
+		
+		jQuery("#block-block-3 ul li ul li a").css('color', '#333');
+		jQuery(this).css('color', '#E4543A');
+
 		jQuery('html, body').animate({
 			scrollTop: jQuery('.assignment-sections .field-items #' + sectionID + " #" + divname).offset().top
 			}, 500);

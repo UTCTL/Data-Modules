@@ -31,6 +31,7 @@ jQuery(document).ready(function(){
 	}
 	    
 	jQuery(".assignment-sections .field-items #section-0").siblings().hide();
+	jQuery("#block-block-3 #section-0").css('color', '#E4543A');
 	jQuery("#block-block-3 #section-0").parent().children('.subsection-links').show();
 	jQuery(".section-link").click(function () {
 		var divname = this.id;

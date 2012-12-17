@@ -80,7 +80,8 @@ function serial_form_alter(&$form, $form_state, $form_id) {
  */
 function serial_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
     module_load_include('inc', 'serial');
-    $sid = _serial_generate_value($entity->nid, $instance['bundle'], $field['field_name']);
+    $id = isset($entity->nid) ? $entity->nid : $entity->item_id;
+    $sid = _serial_generate_value($id, $instance['bundle'], $field['field_name']);
     $items = array(array('value' => $sid));
     $entity->$field['field_name'] = $items;
 }

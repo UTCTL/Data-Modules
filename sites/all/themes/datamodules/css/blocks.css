@@ -227,3 +227,7 @@ h2.block-title { /* Block title */
 .subsection-links {
 	display: none;
 }
+
+.side-nav {
+	width: 200px;
+}

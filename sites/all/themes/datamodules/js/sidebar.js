@@ -11,21 +11,40 @@ function getParameterByName(name)
 }
 
 jQuery(document).ready(function(){
+	var isMobile = false;
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+		isMobile = true;
+	}
+	
 	
 
 	if (!!jQuery('.region-sidebar-second').offset()) {
 	    var sidebarTop = jQuery('.region-sidebar-second').offset().top-10;
-	    var sidebarWidth = jQuery('.region-sidebar-second').width();
+/* 	    var sidebarWidth = jQuery('.region-sidebar-second').width(); */
 	    var sidebarHeight = jQuery('.region-sidebar-second').height();
 	    jQuery(window).scroll(function(){
 	    	var windowTop = jQuery(window).scrollTop();
 	    	if (sidebarTop < windowTop) {
-	    		jQuery('.region-sidebar-second').css({ position: 'fixed', top: 10 });
-	    		jQuery('.region-sidebar-second').width(sidebarWidth);
+	    		if(isMobile)
+	    		{
+		    		jQuery('.region-sidebar-second').css('margin-top', windowTop-100);
+	    		}
+	    		
+	    		else
+	    		{
+		    		jQuery('.region-sidebar-second').css({ position: 'fixed', top: 10, left: 890 });
+	    		}
+/* 	    		jQuery('.region-sidebar-second').width(sidebarWidth); */
 	    	}
 	    	
-	    	else {
+	    	else if(!isMobile)
+	    	{
 	    		jQuery('.region-sidebar-second').css('position','static');
+	    	}
+	    	
+	    	else
+	    	{
+		    	jQuery('.region-sidebar-second').css('margin-top', 0);
 	    	}
 	    });
 	}

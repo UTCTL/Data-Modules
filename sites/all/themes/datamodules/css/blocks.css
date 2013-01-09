@@ -231,3 +231,22 @@ h2.block-title { /* Block title */
 .side-nav {
 	width: 200px;
 }
+
+.example-users ul {
+	margin-left: 100px;
+}
+
+.example-users ul li ul {
+	margin-left: 0px;
+}
+
+.example-users img {
+	width: 100px;
+	float: left;
+}
+
+.example-users {
+	height: auto;
+	float: left;
+	padding-bottom: 15px;
+}

@@ -10,6 +10,46 @@ function getParameterByName(name)
     return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+window.onpopstate = function(event) {
+  alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+};
+
+function setUrl(section, subsection)
+{
+	var regexPattern = /(\b\d+\b)/;
+	var sectionNumber = section.match(regexPattern);
+	var oldURL = document.URL;
+	var replace = oldURL.match(/\?(.*)/);
+	if(subsection)
+	{
+		var subsectionNumber = subsection.match(regexPattern);
+		if(replace)
+		{
+			history.pushState({}, "Title", oldURL);
+			window.history.replaceState({}, replace, "?section=" + sectionNumber[0] + "&subsection=" + subsectionNumber[0]);
+		}
+		
+		else
+		{
+			window.history.pushState("url", "Title", document.URL + "?section=" + sectionNumber[0] + "&subsection=" + subsectionNumber[0]);
+		}
+	}
+	
+	else
+	{
+		if(replace)
+		{
+			history.pushState({}, "Title", oldURL);
+			window.history.replaceState({}, replace, "?section=" + sectionNumber[0]);
+		}
+		
+		else
+		{
+			window.history.pushState("url", "Title", document.URL + '?section=' + sectionNumber[0]);
+		}
+	}
+}
+
 jQuery(document).ready(function(){
 	var isMobile = false;
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
@@ -54,6 +94,7 @@ jQuery(document).ready(function(){
 	jQuery("#block-block-3 #section-0").parent().children('.subsection-links').show();
 	jQuery(".section-link").click(function () {
 		var divname = this.id;
+		setUrl(divname);
 		
 /* 		SECTIONS */
 		jQuery(".assignment-sections .field-items #" + divname).fadeIn("fast").siblings().fadeOut("fast");
@@ -69,6 +110,7 @@ jQuery(document).ready(function(){
 	jQuery(".subsection-link").click(function() {
 		var sectionID = jQuery(this).parent().parent().parent().children('.section-link').attr('id');
 		var divname = this.id;
+		setUrl(sectionID, divname);
 		jQuery("#block-block-3 #" + sectionID).parent().siblings().children('.section-link').css('color', '#333');
 		jQuery("#block-block-3 #" + sectionID).css('color', '#E4543A');
 		

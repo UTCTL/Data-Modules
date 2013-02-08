@@ -65,6 +65,7 @@ header{
 	width:1100px;
 	background-color:#333;
 	display:block;
+	height:70px;
 }
 
 #logo { /* Wrapping link for logo */
@@ -77,7 +78,7 @@ header{
 }
 
 #name-and-slogan { /* Wrapper for website name and slogan */
-  //float: left;
+  position:absolute;
 }
 
 h1#site-name { /* The name of the website */
@@ -113,6 +114,9 @@ h1#site-name { /* The name of the website */
 
 .region-header { /* Wrapper for any blocks placed in the header region */
   clear: both; /* Clear the logo */
+  height: inherit;
+  float: right;
+  margin-right: 45px;
 }
 
 /*
@@ -343,6 +347,14 @@ a.book{
 
 li.active a.book{
 	background-image:url(../images/book-active.png);
+}
+
+a.flag{
+	background-image:url(../images/flag-normal.png);
+}
+
+li.active a.flag{
+	background-image:url(../images/flag-active.png);
 }
 
 .span-4 {

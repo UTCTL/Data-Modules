@@ -21,9 +21,11 @@ ul li.collapsed {
 }
 
 ul li.leaf {
-  *list-style-image: url(../images/menu-leaf.png);
-  list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHBAMAAAA2fErgAAAAD1BMVEX///+/v7+Li4sAAADAwMBFvsw8AAAAAXRSTlMAQObYZgAAAB1JREFUCFtjYAADYwMGBmYVZSDhKAwkFJWhYiAAAB2+Aa/9ugeaAAAAAElFTkSuQmCC');
-  list-style-type: square;
+	
+}
+
+ul li.leaf a {
+	color: #d1d3d4;
 }
 
 /*
@@ -100,4 +102,13 @@ li a.active {
  */
 
 .block-menu-block {
+}
+
+ul.menu {
+	padding: 0;
+	line-height: 60px;	
+}
+
+ul.menu li.leaf a{
+	text-decoration: none;
 }

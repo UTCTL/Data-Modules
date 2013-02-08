@@ -75,6 +75,8 @@ h2.block-title { /* Block title */
 }
 
 #block-system-main-menu { /* "Main menu" block */
+	height: inherit;
+	position: relative;
 }
 
 #block-system-management { /* "Management" block for Drupal management menu */
@@ -155,6 +157,7 @@ h2.block-title { /* Block title */
 	text-transform:uppercase;
 	font-size:1.3em;
 	text-decoration:none;
+	padding-right: 20px;
 }
 
 #block-block-3{
@@ -249,4 +252,31 @@ h2.block-title { /* Block title */
 	height: auto;
 	float: left;
 	padding-top: 15px;
+}
+
+.section-active
+{
+	color: #E4543A !important;
+	background-image: url('http://apps-dev.ctl.utexas.edu/datamodules/sites/all/themes/datamodules/uploads/arrowDown.png');
+	background-repeat: no-repeat;
+	background-position: 100%;
+}
+
+.section-inactive
+{
+	color: #333 !important;
+	background-image: url('http://apps-dev.ctl.utexas.edu/datamodules/sites/all/themes/datamodules/uploads/arrowRight.png');
+	background-repeat: no-repeat;
+	background-position: 100%;
+}
+
+.credits-team {
+	border:#999 solid;
+	background-color: #F5F5F5;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 30px;
+	margin-left: 15px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
 }

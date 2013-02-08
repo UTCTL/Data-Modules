@@ -10,10 +10,6 @@ function getParameterByName(name)
     return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-window.onpopstate = function(event) {
-  alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-};
-
 function setUrl(section, subsection)
 {
 	var regexPattern = /(\b\d+\b)/;
@@ -90,21 +86,29 @@ jQuery(document).ready(function(){
 	}
 	    
 	jQuery(".assignment-sections .field-items #section-0").siblings().hide();
-	jQuery("#block-block-3 #section-0").css('color', '#E4543A');
+	jQuery('.assignment-sections .field-items #section-0 #subsection-0').siblings().hide();
+	jQuery("#block-block-3 #section-0").addClass("section-active");
+	jQuery("#block-block-3 #section-0").parent().siblings().children('.section-link').addClass("section-inactive");
 	jQuery("#block-block-3 #section-0").parent().children('.subsection-links').show();
+	jQuery("#block-block-3 #section-0").parent().find('#subsection-0').css('color', '#E4543A');
 	jQuery(".section-link").click(function () {
 		var divname = this.id;
 		setUrl(divname);
 		
 /* 		SECTIONS */
+		jQuery('.assignment-sections .field-items #' + divname + ' #subsection-0').show();
+		jQuery('.assignment-sections .field-items #' + divname + ' #subsection-0').siblings().hide();
 		jQuery(".assignment-sections .field-items #" + divname).fadeIn("fast").siblings().fadeOut("fast");
-		jQuery("#block-block-3 #" + divname).parent().siblings().children('.section-link').css('color', '#333');
-		jQuery("#block-block-3 #" + divname).css('color', '#E4543A');
+		jQuery("#block-block-3 #" + divname).parent().siblings().children('.section-link').addClass("section-inactive");
+		jQuery("#block-block-3 #" + divname).parent().siblings().children('.section-link').removeClass("section-active");
+		jQuery("#block-block-3 #" + divname).addClass("section-active");
+		jQuery("#block-block-3 #" + divname).removeClass("section-inactive");
 		jQuery("#block-block-3 #" + divname).parent().siblings().children(".subsection-links").slideUp('fast');
 
 /* 		SUBSECTIONS		 */
 		jQuery("#block-block-3 #" + divname).parent().children('.subsection-links').slideDown('fast');
 		jQuery(".subsection-link").css("color", "#333");
+		jQuery("#block-block-3 #" + divname).parent().children('.subsection-links').find('#subsection-0').css('color', '#E4543A');
 	});
 	
 	jQuery(".subsection-link").click(function() {
@@ -116,11 +120,11 @@ jQuery(document).ready(function(){
 		
 		jQuery("#block-block-3 ul li ul li a").css('color', '#333');
 		jQuery(this).css('color', '#E4543A');
-
-		jQuery('html, body').animate({
-			scrollTop: jQuery('.assignment-sections .field-items #' + sectionID + " #" + divname).offset().top
-			}, 500);
-		return false;
+		jQuery('.assignment-sections .field-items #' + sectionID + " #" + divname).fadeIn("fast").siblings().fadeOut("fast");
+/* 		jQuery('html, body').animate({ */
+/* 			scrollTop: jQuery('.assignment-sections .field-items #' + sectionID + " #" + divname).offset().top */
+/* 			}, 500); */
+/* 		return false; */
 	});
 	
 	var section = getParameterByName("section");

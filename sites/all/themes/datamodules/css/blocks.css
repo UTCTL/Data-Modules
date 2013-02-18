@@ -257,14 +257,21 @@ h2.block-title { /* Block title */
 .section-active
 {
 	color: #E4543A !important;
-	background-image: url('http://apps-dev.ctl.utexas.edu/datamodules/sites/all/themes/datamodules/uploads/arrowDown.png');
-	background-repeat: no-repeat;
-	background-position: 100%;
 }
 
 .section-inactive
 {
 	color: #333 !important;
+}
+
+.section-active.parent
+{
+	background-image: url('http://apps-dev.ctl.utexas.edu/datamodules/sites/all/themes/datamodules/uploads/arrowDown.png');
+	background-repeat: no-repeat;
+	background-position: 100%;
+}
+
+.section-inactive.parent {
 	background-image: url('http://apps-dev.ctl.utexas.edu/datamodules/sites/all/themes/datamodules/uploads/arrowRight.png');
 	background-repeat: no-repeat;
 	background-position: 100%;
@@ -279,4 +286,5 @@ h2.block-title { /* Block title */
 	margin-left: 15px;
 	border-radius: 10px;
 	-moz-border-radius: 10px;
+	width: 260px;
 }

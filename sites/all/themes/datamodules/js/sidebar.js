@@ -10,6 +10,17 @@ function getParameterByName(name)
     return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+jQuery.address.change(function(event) {  
+    // do something depending on the event.value property, e.g.  
+    // $('#content').load(event.value + '.xml'); 
+/*     alert("HEY!"); */
+});
+
+jQuery.address.externalChange(function(e){
+/* 	alert(e['value']); */
+	
+});
+
 function setUrl(section, subsection)
 {
 	var regexPattern = /(\b\d+\b)/;
@@ -35,6 +46,7 @@ function setUrl(section, subsection)
 	{
 		if(replace)
 		{
+			jQuery(".address").value((".section-link #" + section).attr('href'));
 			history.pushState({}, "Title", oldURL);
 			window.history.replaceState({}, replace, "?section=" + sectionNumber[0]);
 		}
@@ -93,7 +105,8 @@ jQuery(document).ready(function(){
 	jQuery("#block-block-3 #section-0").parent().find('#subsection-0').css('color', '#E4543A');
 	jQuery(".section-link").click(function () {
 		var divname = this.id;
-		setUrl(divname);
+		jQuery.address.value(jQuery(this).attr("href"));
+/* 		setUrl(divname); */
 		
 /* 		SECTIONS */
 		jQuery('.assignment-sections .field-items #' + divname + ' #subsection-0').show();
@@ -114,7 +127,7 @@ jQuery(document).ready(function(){
 	jQuery(".subsection-link").click(function() {
 		var sectionID = jQuery(this).parent().parent().parent().children('.section-link').attr('id');
 		var divname = this.id;
-		setUrl(sectionID, divname);
+/* 		setUrl(sectionID, divname); */
 		jQuery("#block-block-3 #" + sectionID).parent().siblings().children('.section-link').css('color', '#333');
 		jQuery("#block-block-3 #" + sectionID).css('color', '#E4543A');
 		

@@ -154,8 +154,8 @@ h2.block-title { /* Block title */
 
 #block-block-3 ul li a{
 	color:#333;
-	text-transform:uppercase;
-	font-size:1.3em;
+/* 	text-transform:uppercase; */
+	font-size:1.1em;
 	text-decoration:none;
 	padding-right: 20px;
 }

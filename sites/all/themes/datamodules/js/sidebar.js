@@ -1,9 +1,9 @@
 function getParameterByName(name)
 {
-  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+/*   name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]"); */
   var regexS = "[\\?&]" + name + "=([^&#]*)";
   var regex = new RegExp(regexS);
-  var results = regex.exec(window.location.search);
+  var results = regex.exec(window.location);
   if(results == null)
     return "";
   else
@@ -18,7 +18,31 @@ jQuery.address.change(function(event) {
 
 jQuery.address.externalChange(function(e){
 /* 	alert(e['value']); */
+var section = getParameterByName("section");
+	var subsection = getParameterByName("subsection");
 	
+	
+	if(section && subsection)
+	{
+		var t = jQuery("#block-block-3 #section-" + section).parent().children('.subsection-links');
+		t.children().children('#subsection-' + subsection).trigger('click');
+	}
+	
+	else if(section)
+	{
+		jQuery("#block-block-3 #section-" + section).trigger('click');	
+	}
+	
+	else if(!subsection  && !section && e["value"]=="/")
+	{
+		jQuery("#block-block-3 #section-0").trigger('click');	
+/* 		alert(e["value"]); */
+	}
+	
+});
+
+jQuery.address.internalChange(function(e){
+/* 	alert(e["value"]); */
 });
 
 function setUrl(section, subsection)

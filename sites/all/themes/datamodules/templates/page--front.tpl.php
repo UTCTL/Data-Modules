@@ -84,9 +84,7 @@
     <?php if ($site_name || $site_slogan): ?>
       <hgroup id="name-and-slogan">
         <?php if ($site_name): ?>
-          <h1 id="site-name">
-            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
-          </h1>
+          <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><h1 id="site-name"><span><?php print $site_name; ?></span></h1></a>
         <?php endif; ?>
 
         <?php if ($site_slogan): ?>

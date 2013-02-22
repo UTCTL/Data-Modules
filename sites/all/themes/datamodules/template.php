@@ -241,7 +241,6 @@ function datamodules_semantic_field__field_section($variables) {
 	{
 		$field_type = "section";
 	}
-/* 	var_dump($variables['element']['#field_name']); */
   $output = '';
 
   // Render the label, if it's not hidden.
@@ -253,7 +252,7 @@ function datamodules_semantic_field__field_section($variables) {
   $output .= '<div class="field-items"' . $variables['content_attributes'] . '>';
   $i = 0;
   foreach ($variables['items'] as $delta => $item) {
-/*   	echo($item['#field_name']); */
+/*   var_dump($item); */
     $output .= '<div id="'.$field_type.'-'.$i.'">';
     $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
     $output .= '<div class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
@@ -290,25 +289,35 @@ function datamodules_semantic_field__field_title__field_section($variables) {
   return $output;
 }
 
-function datamodules_preprocess_block(&$vars) {
-	 if($vars['block']->bid == "188")
-	 {
-/* 		 echo("This is the section menu."); */
-/* 		 $vars['elements']["#markup"] = "My new content"; */
-/* 		var_dump($vars["elements"]["#markup"]); */
-	 }
-	 
-	 else if ($vars['block']->region == "sidebar_second")
-	 {
-/* 		 echo("ERROR: Block with bid = '188' (Section Menu) expected in region = 'sidebar_second'"); */
-/* 		 echo("Possible cause: function datamodules_preprocess_block in template.php (datamodules)"); */
-/* 		var_dump($vars); */
-	 }
-/* 	var_dump($vars['block']); */
-}
+function datamodules_file_link($variables) {
+  $file = $variables['file'];
+  $icon_directory = $variables['icon_directory'];
 
-function datamodules_preprocess_page(&$vars) {
-/* 	$vars['custom_links'] = menu_navigation_links('menu-custom-links'); */
-/* 	var_dump($vars); */
+  $url = file_create_url($file->uri);
+  $icon = theme('file_icon', array('file' => $file, 'icon_directory' => $icon_directory));
+
+  // Set options as per anchor format described at
+  // http://microformats.org/wiki/file-format-examples
+  $options = array(
+    'attributes' => array(
+      'type' => $file->filemime . '; length=' . $file->filesize,
+    ),
+  );
+
+  // Use the description as the link text if available.
+  if (empty($file->description)) {
+    $link_text = $file->filename;
+  }
+  else {
+    $link_text = $file->description;
+    $options['attributes']['title'] = check_plain($file->filename);
+  }
+
+  //open files of particular mime types in new window
+  $new_window_mimetypes = array('application/pdf','text/plain');
+  if (in_array($file->filemime, $new_window_mimetypes)) {
+    $options['attributes']['target'] = '_blank';
+  }
+  return '<span class="file">' . $icon . ' ' . l($link_text, $url, $options) . '</span>';
 }
 ?>

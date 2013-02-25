@@ -62,10 +62,6 @@ jQuery(document).ready(function ()
 		{
 			jQuery("#block-block-3 #section-" + section).trigger('click');
 		}
-		else if (!subsection && !section && e["value"] == "/")
-		{
-			jQuery("#block-block-3 #section-0").trigger('click');
-		}
 
 	});
 	var isMobile = false;
@@ -124,10 +120,6 @@ jQuery(document).ready(function ()
 		//"divname" will be something like "section-1"
 		var divname = this.id;
 		
-		//Change and update the current URL
-		jQuery.address.value(jQuery(this).attr("href"));
-		jQuery.address.update();
-
 		/* 		SECTIONS */
 		jQuery('.assignment-sections .field-items #' + divname + ' #subsection-0').show();
 		jQuery('.assignment-sections .field-items #' + divname + ' #subsection-0').siblings().hide();
@@ -148,8 +140,6 @@ jQuery(document).ready(function ()
 	/* 	Click event handler for "Subsections" in the right nav */
 	jQuery(".subsection-link").click(function ()
 	{
-		jQuery.address.value(jQuery(this).attr("href"));
-		jQuery.address.update();
 		var sectionID = jQuery(this).parent().parent().parent().children('.section-link').attr('id');
 		var divname = this.id;
 		jQuery("#block-block-3 #" + sectionID).parent().siblings().children('.section-link').css('color', '#333');
@@ -159,16 +149,4 @@ jQuery(document).ready(function ()
 		jQuery(this).css('color', '#E4543A');
 		jQuery('.assignment-sections .field-items #' + sectionID + " #" + divname).fadeIn("fast").siblings().fadeOut("fast");
 	});
-	var section = getParameterByName("section");
-	var subsection = getParameterByName("subsection");
-	if (section)
-	{
-		jQuery("#block-block-3 #section-" + section).trigger('click');
-	}
-
-	if (section && subsection)
-	{
-		var t = jQuery("#block-block-3 #section-" + section).parent().children('.subsection-links');
-		t.children().children('#subsection-' + subsection).trigger('click');
-	}
 });

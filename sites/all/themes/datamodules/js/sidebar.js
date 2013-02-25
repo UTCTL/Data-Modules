@@ -19,7 +19,12 @@ function getParameterByName(name)
 
 jQuery(document).ready(function ()
 {
-
+	//Remove the 'id' attribute of uploaded files. I had to do this because they were automatically being given ids like "section-0, section-1, ect"
+	//which caused problems because the jQuery was showing/hiding them because they had the same ids as the main sections that we actually DID want
+	//to show/hide when the right nav was clicked.
+	jQuery(".field-type-file .field-items").children().removeAttr("id");
+	
+	//Event handler for our jQuery deep-linking library (called "Asual" - http://www.asual.com/jquery/address/)
 	jQuery.address.externalChange(function (e)
 	{
 		var section = getParameterByName("section");
@@ -28,21 +33,28 @@ jQuery(document).ready(function ()
 
 		if (section && subsection)
 		{
+			//Most code in this "if" statement is copied from the ".section-link" click event handler
+			//It may seem redundant but it was necessary to get the back-button working with deep-linking
+						
+			//Show/hide main content
 			jQuery('.assignment-sections .field-items #section-' + section + ' #subsection-' + subsection).show();
 			jQuery('.assignment-sections .field-items #section-' + section + ' #subsection-' + subsection).siblings().hide();
 			jQuery(".assignment-sections .field-items #section-" + section).fadeIn("fast").siblings().fadeOut("fast");
+			
+			//Show/hide side nav links
 			jQuery("#block-block-3 #section-" + section).parent().siblings().children('.section-link').addClass("section-inactive");
 			jQuery("#block-block-3 #section-" + section).parent().siblings().children('.section-link').removeClass("section-active");
 			jQuery("#block-block-3 #section-" + section).addClass("section-active");
 			jQuery("#block-block-3 #section-" + section).removeClass("section-inactive");
 			jQuery("#block-block-3 #section-" + section).parent().siblings().children(".subsection-links").slideUp('fast');
+			jQuery("#block-block-3 #section-" + section).parent().children('.subsection-links').slideDown('fast');
+			
+			//This line *might* be unnecessary. It is to make sure that all files are being displayed. I put this in when the files were
+			//being hidden because of their "section-0, section-1, etc" ids. This problem should have been avoided by removing the id
+			//attribute earlier, but I'm not sure.
 			jQuery(".assignment-sections .field-items #section-" + section + " .field-type-file .field-items #section-0").siblings().show();
 
-			/* 		SUBSECTIONS		 */
-			jQuery("#block-block-3 #section-" + section).parent().children('.subsection-links').slideDown('fast');
-			jQuery(".subsection-link").css("color", "#333");
-			jQuery("#block-block-3 #section-" + section).parent().children('.subsection-links').find('#subsection-0').css('color', '#E4543A');
-
+			//Fire a click event to the apropriate link in the side nav.
 			var t = jQuery("#block-block-3 #section-" + section).parent().children('.subsection-links');
 			t.children().children('#subsection-' + subsection).trigger('click');
 		}
@@ -98,6 +110,7 @@ jQuery(document).ready(function ()
 		});
 	}
 
+	//Default behavior when a page is reached: Hide all but the first subsection of the first section.
 	jQuery(".assignment-sections .field-items #section-0").siblings().hide();
 	jQuery('.assignment-sections .field-items #section-0 #subsection-0').siblings().hide();
 	jQuery("#block-block-3 #section-0").addClass("section-active");
@@ -108,7 +121,10 @@ jQuery(document).ready(function ()
 	/* 	Click event handler for "Sections" in the right nav */
 	jQuery(".section-link").click(function ()
 	{
+		//"divname" will be something like "section-1"
 		var divname = this.id;
+		
+		//Change and update the current URL
 		jQuery.address.value(jQuery(this).attr("href"));
 		jQuery.address.update();
 
@@ -143,12 +159,10 @@ jQuery(document).ready(function ()
 		jQuery(this).css('color', '#E4543A');
 		jQuery('.assignment-sections .field-items #' + sectionID + " #" + divname).fadeIn("fast").siblings().fadeOut("fast");
 	});
-	/* 	jQuery.address.autoUpdate(false); */
 	var section = getParameterByName("section");
 	var subsection = getParameterByName("subsection");
 	if (section)
 	{
-
 		jQuery("#block-block-3 #section-" + section).trigger('click');
 	}
 
